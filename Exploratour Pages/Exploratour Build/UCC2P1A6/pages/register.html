@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Exploratour</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="site-card">
+
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">✦</span>
+          <span class="brand-text">Exploratour</span>
+        </div>
+
+        <div class="topbar-right">
+          <a href="../index.html" class="text-link">Home</a>
+          <a href="destinations.html" class="text-link">Destinations</a>
+          <a href="login.html" class="button-light">Login</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main style="padding:120px 30px 60px; display:flex; justify-content:center;">
+
+        <div class="form-card">
+          <h1 class="page-title">Create an account</h1>
+
+          <p class="page-copy">
+            Start saving destinations, organizing your ideas, and turning
+            your travel plans into something real.
+          </p>
+
+          <form action="success.html">
+
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="traveldate">Preferred Travel Date</label>
+            <input type="date" id="traveldate" name="traveldate" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required minlength="6">
+
+            <button type="submit" class="submit-button">Register</button>
+
+            <!-- EXTRA LINK -->
+            <p style="margin-top:15px; text-align:center; font-size:0.95rem;">
+              Already have an account?
+              <a href="login.html" style="color:#2e5e3a; font-weight:600;">
+                Log in
+              </a>
+            </p>
+
+          </form>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+</body>
+</html>
