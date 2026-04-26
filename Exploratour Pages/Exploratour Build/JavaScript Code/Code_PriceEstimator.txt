@@ -1,0 +1,105 @@
+<!-- HTML -->
+
+<!-- BOOKING -->
+  <section class="trip-section">
+    <h2>Book Your Trip</h2>
+
+    <div class="booking-box">
+      <h3>Select Dates</h3>
+      <input type="date" id="startDate">
+      <input type="date" id="endDate">
+    </div>
+
+    <div class="booking-box">
+      <h3>Select Hotel</h3>
+      <label><input type="radio" name="hotel" value="180"> Budget Hotel ($180/night)</label>
+      <label><input type="radio" name="hotel" value="350"> City Hotel ($350/night)</label>
+    </div>
+
+    <div class="booking-box">
+      <h3>Select Flight</h3>
+      <label><input type="radio" name="flight" value="900"> Economy ($900)</label>
+      <label><input type="radio" name="flight" value="1700"> Business ($1700)</label>
+    </div>
+
+    <div class="booking-box">
+      <h3>Add Activities</h3>
+      <label><input type="checkbox" value="120"> Guided Temple Tour ($120)</label>
+      <label><input type="checkbox" value="80"> Sushi Experience ($80)</label>
+      <label><input type="checkbox" value="60"> Bullet Train Ride ($60)</label>
+    </div>
+
+    <div class="total-box">
+  <h3>Total: $<span id="total">0</span></h3>
+  <button onclick="calculateTotal()">Calculate</button>
+  <button onclick="bookTrip()">Book Now</button>
+</div>
+
+  </section>
+
+
+
+<!-- JavaScript -->
+<script>
+function getNights() {
+  const start = document.getElementById("startDate").value;
+  const end = document.getElementById("endDate").value;
+
+  if (!start || !end) return 0;
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  const diffTime = endDate - startDate;
+  const nights = diffTime / (1000 * 60 * 60 * 24);
+
+  return nights > 0 ? nights : 0;
+}
+
+function calculateTotal() {
+  let total = 0;
+
+  const nights = getNights();
+
+  // HOTEL (per night)
+  const hotel = document.querySelector('input[name="hotel"]:checked');
+  if (hotel && nights > 0) {
+    total += parseInt(hotel.value) * nights;
+  }
+
+  // FLIGHT
+  const flight = document.querySelector('input[name="flight"]:checked');
+  if (flight) {
+    total += parseInt(flight.value);
+  }
+
+  // ACTIVITIES
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(item => {
+    total += parseInt(item.value);
+  });
+
+  document.getElementById("total").innerText = total;
+
+  return total;
+}
+</script>
+
+
+<!-- CSS -->
+ /* BOOKING */
+.booking-box {
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.booking-box label {
+  display: block;
+  margin: 10px 0;
+}
+
+.total-box {
+  text-align: center;
+  margin-top: 20px;
+}
