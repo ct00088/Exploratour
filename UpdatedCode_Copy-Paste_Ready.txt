@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking | Exploratour</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/script.js" defer></script>
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="site-card">
+
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">✦</span>
+          <span class="brand-text">Exploratour</span>
+        </div>
+
+        <div class="topbar-right">
+          <a href="../index.html" class="text-link">Home</a>
+          <a href="destinations.html" class="text-link">Destinations</a>
+          <a href="login.html" class="button-light">Login</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main style="padding:120px 30px 60px; display:flex; justify-content:center;">
+
+        <div class="form-card">
+
+          <h1 class="page-title">Booking</h1>
+
+          <p class="page-copy">
+            This is where everything starts coming together. You’ve explored,
+            planned, and now you’re ready to actually lock things in.
+          </p>
+
+          <form action="success.html">
+
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Your full name" required>
+
+            <label for="destination">Destination</label>
+            <input type="text" id="destination" name="destination" placeholder="Where are you going?" required>
+
+            <label for="dates">Travel Dates</label>
+            <input type="date" id="startDate" name="dates" required onchange="calculateTotal()">
+	    <input type="date" id="endDate" name="dates" required onchange="calculateTotal()">
+
+            <label for="travelers">Number of Travelers</label>
+            <input type="number" id="travelers" name="travelers" min="1" value="1" required>
+
+            <label for="hotel">Hotel Preference</label>
+            <input type="text" id="hotel" name="hotel" placeholder="Hotel or type of stay">
+
+            <!-- EXTRA: travel type dropdown -->
+            <label for="style">Travel Style</label>
+            <select id="style" name="style" onchange="calculateTotal()">
+              <option value="">Select a style</option>
+              <option value="relax">Relaxed</option>
+              <option value="adventure">Adventure</option>
+              <option value="city">City / Culture</option>
+              <option value="luxury">Luxury</option>
+            </select>
+	    
+	    <p style="margin-top:15px; font-weight:bold; text-align:center;">
+              Estimated Total: $<span id="total">0</span>
+            </p>
+
+            <button type="submit" class="submit-button">Confirm Booking</button>
+
+          </form>
+
+          <!-- EXTRA INFO -->
+          <p style="margin-top:15px; text-align:center; font-size:0.9rem;">
+            You’re one step closer to your trip ✦
+          </p>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+  
+  <!-- JAVASCRIPT -->
+  <script>
+  function getNights() {
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+
+    if (!start || !end) return 0;
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const diffTime = endDate - startDate;
+    const nights = diffTime / (1000 * 60 * 60 * 24);
+
+    return nights > 0 ? nights : 0;
+  }
+
+  function calculateTotal() {
+    let total = 0;
+
+    const nights = getNights();
+    const style = document.getElementById("style").value;
+
+    let costPerNight = 0;
+
+    if (style === "relax") {
+      costPerNight = 100;
+    } else if (style === "adventure") {
+      costPerNight = 150;
+    } else if (style === "city") {
+      costPerNight = 180;
+    } else if (style === "luxury") {
+      costPerNight = 300;
+    }
+
+    if (nights > 0 && costPerNight > 0) {
+      total = nights * costPerNight;
+    }
+
+    document.getElementById("total").innerText = total;
+
+    return total;
+  }
+  </script>
+</body>
+</html>
