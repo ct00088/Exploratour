@@ -4,16 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Budget Planner | Exploratour</title>
+
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/script.js" defer></script>
 </head>
 
 <body>
+
   <div class="page-shell">
     <div class="site-card">
 
+      <!-- ================= NAVBAR ================= -->
+
       <header class="topbar">
+
         <a href="../index.html" class="brand">
           <span class="brand-mark">✦</span>
           <span class="brand-text">Exploratour</span>
@@ -23,10 +29,13 @@
           <a href="login.html" class="text-link">Log In</a>
           <a href="register.html" class="button-light">Sign Up</a>
 
-          <button class="hamburger" id="menuBtn">☰</button>
+          <button class="hamburger" id="menuBtn" aria-label="Open navigation menu">
+            ☰
+          </button>
         </div>
 
         <nav class="mobile-menu" id="mobileMenu">
+
           <div class="menu-section">
             <p>Explore</p>
             <a href="destinations.html">Destinations</a>
@@ -68,45 +77,311 @@
             <a href="contact.html">Contact</a>
             <a href="support.html">Support</a>
           </div>
+
         </nav>
+
       </header>
 
-      <!-- PAGE CONTENT -->
-      <main style="padding:120px 30px 60px; display:flex; justify-content:center;">
+      <!-- ================= MAIN CONTENT ================= -->
 
-        <div class="form-card">
+      <main style="padding:120px 30px 80px;">
 
-          <h1 class="page-title">Budget Planner</h1>
+        <!-- HERO -->
 
-          <p class="page-copy">
-            Get a rough idea of what your trip might cost. It doesn’t need to be perfect —
-            just enough to help you plan realistically.
+        <section style="text-align:center; margin-bottom:50px;">
+
+          <h1 style="
+            font-size:4rem;
+            color:#805690;
+            font-family:Georgia, serif;
+            margin-bottom:18px;
+          ">
+            Budget Planner 💸
+          </h1>
+
+          <p style="
+            color:#6a7076;
+            max-width:760px;
+            margin:0 auto;
+            line-height:1.9;
+            font-size:1.1rem;
+          ">
+            Planning a trip feels a lot less stressful
+            when you understand what it might realistically cost.
+            This helps you prepare before you even leave.
           </p>
 
-          <form onsubmit="return calculateBudget()">
+        </section>
 
-            <label for="destination">Destination</label>
-            <input type="text" id="destination" placeholder="Where are you going?" required>
+        <!-- HERO IMAGE -->
 
-            <label for="days">Number of Days</label>
-            <input type="number" id="days" min="1" value="5" required>
+        <section style="margin-bottom:60px;">
 
-            <label for="daily">Estimated Daily Spend ($)</label>
-            <input type="number" id="daily" min="0" value="150" required>
+          <img
+            src="../images/budget.png"
+            alt="Travel budgeting aesthetic"
+            style="
+              width:100%;
+              height:340px;
+              object-fit:cover;
+              border-radius:24px;
+              box-shadow:0 12px 30px rgba(0,0,0,0.12);
+            "
+          >
 
-            <button type="submit" class="submit-button">Calculate</button>
+        </section>
 
-          </form>
+        <!-- MAIN LAYOUT -->
 
-          <!-- RESULT -->
-          <div id="budgetResult" style="margin-top:20px; text-align:center; font-weight:600;"></div>
+        <section style="
+          display:grid;
+          grid-template-columns:1.1fr 0.9fr;
+          gap:30px;
+          align-items:start;
+        ">
 
-        </div>
+          <!-- FORM -->
+
+          <div class="form-card" style="
+            max-width:none;
+            width:100%;
+          ">
+
+            <h2 style="
+              color:#d46f93;
+              margin-bottom:10px;
+            ">
+              Trip Cost Estimator
+            </h2>
+
+            <p class="page-copy">
+              Estimate your travel expenses based on destination,
+              length of stay, and travel style.
+            </p>
+
+            <form onsubmit="return calculateTripBudget()">
+
+              <label for="destination">Destination</label>
+
+              <input
+                type="text"
+                id="destination"
+                placeholder="Where are you going?"
+                required
+              >
+
+              <label for="days">Number of Days</label>
+
+              <input
+                type="number"
+                id="days"
+                min="1"
+                value="5"
+                required
+              >
+
+              <label for="daily">
+                Estimated Daily Spend ($)
+              </label>
+
+              <input
+                type="number"
+                id="daily"
+                min="0"
+                value="150"
+                required
+              >
+
+              <!-- EXTRA -->
+
+              <label for="style">
+                Travel Style
+              </label>
+
+              <select id="style">
+
+                <option value="budget">
+                  💵 Budget
+                </option>
+
+                <option value="standard">
+                  ✈️ Standard
+                </option>
+
+                <option value="luxury">
+                  ✨ Luxury
+                </option>
+
+              </select>
+
+              <button
+                type="submit"
+                class="submit-button"
+                style="margin-top:25px;"
+              >
+                Calculate Budget
+              </button>
+
+            </form>
+
+            <!-- RESULT -->
+
+            <div
+              id="budgetResult"
+              style="
+                margin-top:30px;
+                text-align:center;
+                background:#fff7fb;
+                padding:25px;
+                border-radius:18px;
+                display:none;
+              "
+            >
+
+              <p style="
+                color:#6a7076;
+                margin-bottom:10px;
+              ">
+                Estimated Total
+              </p>
+
+              <h2 style="
+                margin:0;
+                color:#805690;
+                font-size:2.8rem;
+              ">
+                $<span id="budgetTotal">0</span>
+              </h2>
+
+            </div>
+
+          </div>
+
+          <!-- SIDE CONTENT -->
+
+          <div style="
+            display:flex;
+            flex-direction:column;
+            gap:25px;
+          ">
+
+            <!-- QUICK TIPS -->
+
+            <div class="info-card">
+
+              <div class="card-body">
+
+                <h3 style="color:#d46f93;">
+                  🌸 Budget Tip
+                </h3>
+
+                <p>
+                  Flights and hotels usually take up the biggest
+                  part of your trip cost — booking earlier helps a lot.
+                </p>
+
+              </div>
+
+            </div>
+
+            <!-- WHAT'S INCLUDED -->
+
+            <div class="info-card">
+
+              <div class="card-body">
+
+                <h3 style="color:#d46f93;">
+                  ✈️ What To Include
+                </h3>
+
+                <p>
+                  Food, transportation, activities,
+                  shopping, hotels, emergency money,
+                  and airport expenses are easy to underestimate.
+                </p>
+
+              </div>
+
+            </div>
+
+            <!-- QUOTE -->
+
+            <div style="
+              background:#fffdf8;
+              border-left:8px solid #f89e9d;
+              padding:25px;
+              border-radius:18px;
+            ">
+
+              <p style="
+                margin:0;
+                color:#805690;
+                font-style:italic;
+                line-height:1.8;
+              ">
+                “Travel becomes a lot less overwhelming
+                when your money has a plan too.”
+              </p>
+
+            </div>
+
+            <!-- MINI IMAGE -->
+
+            <img
+              src="../images/moneytravel.jpg"
+              alt="Travel planning and budgeting"
+              style="
+                width:100%;
+                border-radius:20px;
+                object-fit:cover;
+                height:240px;
+                box-shadow:0 10px 25px rgba(0,0,0,0.1);
+              "
+            >
+
+          </div>
+
+        </section>
 
       </main>
 
     </div>
   </div>
-</body>
 
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    function calculateBudget() {
+
+      const days =
+        parseInt(document.getElementById("days").value);
+
+      let daily =
+        parseInt(document.getElementById("daily").value);
+
+      const style =
+        document.getElementById("style").value;
+
+      if (style === "budget") {
+        daily = daily * 0.8;
+      }
+
+      else if (style === "luxury") {
+        daily = daily * 1.6;
+      }
+
+      const total = days * daily;
+
+      document.getElementById("budgetResult").style.display = "block";
+
+      document.getElementById("budgetTotal").innerText =
+        total.toFixed(0);
+
+      return false;
+    }
+
+  </script>
+
+</body>
 </html>

@@ -170,14 +170,32 @@ function updateMap() {
 }
 
 // ================= BUDGET =================
-function calculateBudget() {
-  const days = document.getElementById("days").value;
-  const daily = document.getElementById("daily").value;
+
+function calculateTripBudget() {
+
+  const days =
+    parseInt(document.getElementById("days").value);
+
+  let daily =
+    parseInt(document.getElementById("daily").value);
+
+  const style =
+    document.getElementById("style").value;
+
+  if (style === "budget") {
+    daily = daily * 0.8;
+  }
+
+  else if (style === "luxury") {
+    daily = daily * 1.6;
+  }
 
   const total = days * daily;
 
-  document.getElementById("budgetResult").textContent =
-    "Estimated total: $" + total;
+  document.getElementById("budgetResult").style.display = "block";
+
+  document.getElementById("budgetTotal").innerText =
+    total.toFixed(0);
 
   return false;
 }
