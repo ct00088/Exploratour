@@ -342,3 +342,157 @@ function goToWeather() {
     window.location.href = "weather.html?city=" + encodeURIComponent(city);
   }
 }
+
+// ================= LIVE WEATHER =================
+
+async function getWeather(passedCity) {
+
+  const city =
+    passedCity ||
+    document.getElementById("weatherSearch").value;
+
+  const result = document.getElementById("weatherResult");
+
+  if (!city || city.trim() === "") {
+
+    result.innerHTML = `
+      <div class="info-card">
+        <div class="card-body">
+          <p>Please enter a city.</p>
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  result.innerHTML = `
+    <div class="info-card">
+      <div class="card-body">
+        <p>Loading weather...</p>
+      </div>
+    </div>
+  `;
+
+  try {
+
+    // STEP 1: GET COORDINATES
+    const geoResponse = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`
+    );
+
+    const geoData = await geoResponse.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+
+      result.innerHTML = `
+        <div class="info-card">
+          <div class="card-body">
+            <p>City not found.</p>
+          </div>
+        </div>
+      `;
+
+      return;
+    }
+
+    const location = geoData.results[0];
+
+    // STEP 2: GET WEATHER
+    const weatherResponse = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current_weather=true`
+    );
+
+    const weatherData = await weatherResponse.json();
+
+    const weather = weatherData.current_weather;
+
+    // WEATHER CODE INTERPRETER
+    let condition = "Clear";
+
+    if (weather.weathercode >= 1 && weather.weathercode <= 3) {
+      condition = "Cloudy";
+    }
+
+    if (weather.weathercode >= 45 && weather.weathercode <= 48) {
+      condition = "Foggy";
+    }
+
+    if (weather.weathercode >= 51 && weather.weathercode <= 67) {
+      condition = "Rainy";
+    }
+
+    if (weather.weathercode >= 71 && weather.weathercode <= 77) {
+      condition = "Snow";
+    }
+
+    if (weather.weathercode >= 80) {
+      condition = "Stormy";
+    }
+
+    result.innerHTML = `
+
+      <div class="info-card">
+
+        <div class="card-body" style="text-align:center;">
+
+          <h2 style="
+            font-size:2rem;
+            margin-bottom:10px;
+          ">
+            ${location.name}
+          </h2>
+
+          <p style="
+            color:#5e646b;
+            margin-bottom:20px;
+          ">
+            ${location.country}
+          </p>
+
+          <div style="
+            font-size:4rem;
+            margin-bottom:10px;
+          ">
+            🌤️
+          </div>
+
+          <h3 style="
+            font-size:3rem;
+            margin-bottom:10px;
+            color:#4f6d8f;
+          ">
+            ${weather.temperature}°C
+          </h3>
+
+          <p style="
+            font-size:1.1rem;
+            margin-bottom:8px;
+          ">
+            ${condition}
+          </p>
+
+          <p style="
+            color:#5e646b;
+          ">
+            Wind Speed: ${weather.windspeed} km/h
+          </p>
+
+        </div>
+
+      </div>
+    `;
+
+  } catch (error) {
+
+    result.innerHTML = `
+      <div class="info-card">
+        <div class="card-body">
+          <p>Something went wrong loading weather data.</p>
+        </div>
+      </div>
+    `;
+
+    console.error(error);
+  }
+}
